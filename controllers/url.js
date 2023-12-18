@@ -18,7 +18,23 @@ async function createShortUrl(req, res) {
     res.json(url);
 }
 
+// get analytics of a url
+
+async function getAnalytics(req, res) {
+    const shortId = req.params.shortId;
+    const url = await Url.findOne({shortId: shortId});
+    if (!url) {
+        return res.status(404).json({message: "url not found"});
+    }
+    res.json({
+    analytics: url.visitHistory,
+    totalClicks : url.visitHistory.length,
+    });
+    res
+}
+
 
 module.exports = {
-    createShortUrl
+    createShortUrl,
+    getAnalytics
 }
