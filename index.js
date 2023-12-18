@@ -6,7 +6,7 @@ const port = 8000;
 const urlRoutes = require('./routes/url');
 
 app.use(express.json());
-app.use("/api/url", urlRoutes);
+app.use("/url", urlRoutes);
 
 //mogno db connect
 const mongoconnect = require('./connect');
