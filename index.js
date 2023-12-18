@@ -1,4 +1,5 @@
 const express = require('express');
+const URL = require('./model/url');
 
 const app = express();
 
@@ -7,6 +8,20 @@ const urlRoutes = require('./routes/url');
 
 app.use(express.json());
 app.use("/url", urlRoutes);
+
+app.get("/:shortId" , async(req,res)=>{
+    const shortId = req.params.shortId;
+ const entry=   await URL.findOneAndUpdate({
+        shortId: shortId
+    }, {
+        $push: {
+            visitHistory: {
+                timestamp: Date.now()
+            }
+        }
+    });
+    res.redirect(entry.redirectUrl);
+})
 
 //mogno db connect
 const mongoconnect = require('./connect');
